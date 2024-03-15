@@ -3,10 +3,11 @@ const express = require('express')
 const router = express.Router()
 
 // import controllerCannot GET /api/products
-const {getProducts, addProduct, delProduct} = require('../controllers/products')
+const {getProducts, addProduct, delProduct, getProductById} = require('../controllers/products')
 
 // routes
 router.get('/', getProducts)
+router.get('/:id', getProductById)
 
 router.post('/add', addProduct)
 

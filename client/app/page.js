@@ -1,32 +1,25 @@
 import ProductsGrid from "@/components/Products/ProductsGrid";
 import Image from "next/image";
+import axios from "axios";
+import { Suspense } from "react";
 
-// test products, name, price, description
-const products = [
-  {
-    id: 1,
-    name: "Product 1",
-    price: "$10",
-    description: "This is product 1",
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    price: "$20",
-    description: "This is product 2",
-  },
-  {
-    id: 3,
-    name: "Product 3",
-    price: "$30",
-    description: "This is product 3",
-  },
-]
+async function fetchData() {
+  const res = await axios.get("http://127.0.0.1:3000/api/products/");
+  if (res.status !== 200) {
+    throw new Error("Failed to fetch data");
+  }
 
-export default function Home() {
+  const products = await res.data;
+  return products;
+}
+
+export default async function Home() {
+  const products = await fetchData();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <ProductsGrid products={products}/>
+    <main className="flex min-h-screen flex-col items-center justify-between md:p-24">
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProductsGrid products={products} />
+      </Suspense>
     </main>
   );
 }

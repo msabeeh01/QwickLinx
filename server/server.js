@@ -1,8 +1,12 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 
 // json middleware
 app.use(express.json())
+
+// cors middleware
+app.use(cors())
 
 // import db
 const db = require('./db/conn')
