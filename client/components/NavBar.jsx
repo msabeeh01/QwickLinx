@@ -1,10 +1,21 @@
 "use client";
-// crreate a navbar with nextjs and tailwindcss
+import { FaShoppingCart } from "react-icons/fa";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "@/contexts/CartContext";
+import { AuthContext } from "@/contexts/AuthContext";
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  //
+  const { cart } = useContext(CartContext);
+  const [quantity, setQuantity] = useState(0);
+
+  const { user, logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    setQuantity(cart.reduce((acc, item) => acc + item.quantity, 0));
+  }, [cart]);
 
   return (
     <header>
@@ -23,21 +34,47 @@ const NavBar = () => {
             <div className="hidden md:flex items-center -mx-2">
               <Link
                 className="mx-2 text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
-                href="/about"
+                href="/"
               >
-                About
+                Shop
               </Link>
+
               <Link
                 className="mx-2 text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
-                href="/contact"
+                href="/orders"
               >
-                Contact
+                Orders
               </Link>
+
+              <Link
+                className="mx-2 relative text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
+                href="/cart"
+              >
+                <FaShoppingCart></FaShoppingCart>
+                <div className="text-black rounded-full bg-white text-sm flex place-items-center place-content-center w-5 h-5 -top-3 -right-4 absolute">
+                  {quantity}
+                </div>
+              </Link>
+
+              {user && (
+                <div className="flex flex-row place-items-center">
+                  <div className="text-white ml-4">{user.email}</div>
+
+                  <div className="text-red-300 ml-4 w-fit p-2 rounded hover:bg-white cursor-pointer"
+                    onClick={() => logout()}
+                  >
+                    Logout
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="md:hidden flex items-center -mx-2">
               {/* <!-- Mobile menu button */}
-              <button className="focus:outline-none" onClick={() => setShowMenu(!showMenu)}>
+              <button
+                className="focus:outline-none"
+                onClick={() => setShowMenu(!showMenu)}
+              >
                 <svg
                   className="w-6 h-6 text-gray-500 dark:text-gray-200"
                   x-show="!showMenu"
@@ -79,7 +116,7 @@ const NavBar = () => {
             </Link>
             <Link
               className="block text-gray-700 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
-              href="/contact"
+              href="/cart"
             >
               Contact
             </Link>

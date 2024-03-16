@@ -33,11 +33,13 @@ const Quantity = ({
       <div className="w-full h-1/2">
         <button
           className="bg-yellow-300 rounded-lg h-full text-sm w-full p-2 hover:bg-yellow-400"
-          onClick={() => addToCart({ ...details, quantity })}
+          onClick={() => {addToCart({ ...details, quantity })
+          // popup saying added to cart
+          window.alert("Added to cart") 
+        }}
         >
           Add to cart
         </button>
-        <button onClick={() => console.log(cart)}>Check cart</button>
       </div>
     </div>
   );
@@ -100,8 +102,8 @@ function Page({ params }) {
   }
 
   return (
-    <div className="flex min-h-screen flex-row justify-center w-full bg-gray-300 md:p-24">
-      <div className="bg-white rounded-l-xl p-8 w-1/3 flex flex-col place-items-center justify-evenly overflow-hidden min-h-full">
+    <div className="flex min-h-screen md:flex-row flex-col justify-center bg-gray-300 md:p-24">
+      <div className="bg-white rounded-l-xl p-8 md:w-1/3 w-full flex flex-col place-items-center justify-evenly overflow-hidden min-h-full">
         {/* ITEM */}
         <div className="h-[400px] w-full">
           <img
@@ -125,7 +127,7 @@ function Page({ params }) {
         </div>
       </div>
 
-      <div className="bg-white rounded-r-xl p-8 w-2/3 border-l gap-2 flex flex-col min-h-full">
+      <div className="bg-white rounded-r-xl p-8 w-full md:w-2/3 border-l gap-2 flex flex-col min-h-full">
         <p>Description: {details.description}</p>
         <Carousel imgSrc={imgSrc} setImgSrc={setImgSrc} />
       </div>

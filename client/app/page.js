@@ -1,6 +1,10 @@
+import { LoginForm } from "@/components/LoginForm";
 import ProductsGrid from "@/components/Products/ProductsGrid";
 import axios from "axios";
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
+import HomeGuard from "@/components/Home/HomeGuard";
+
 
 async function fetchData() {
   const res = await axios.get("http://127.0.0.1:3000/api/products/");
@@ -14,11 +18,10 @@ async function fetchData() {
 
 export default async function Home() {
   const products = await fetchData();
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between md:p-24">
-      <Suspense fallback={<div>Loading...</div>}>
-          <ProductsGrid products={products} />
-      </Suspense>
+      <HomeGuard products={products}/>
     </main>
   );
 }
