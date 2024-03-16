@@ -42,9 +42,9 @@ const NavBar = () => {
                   className="w-6 h-6 text-gray-500 dark:text-gray-200"
                   x-show="!showMenu"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >

@@ -1,5 +1,4 @@
 import ProductsGrid from "@/components/Products/ProductsGrid";
-import Image from "next/image";
 import axios from "axios";
 import { Suspense } from "react";
 
@@ -18,7 +17,7 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between md:p-24">
       <Suspense fallback={<div>Loading...</div>}>
-        <ProductsGrid products={products} />
+          <ProductsGrid products={products} />
       </Suspense>
     </main>
   );

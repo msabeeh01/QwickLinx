@@ -1,8 +1,16 @@
 "use client";
 import axios from "axios";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
+import { CartContext } from "@/contexts/CartContext";
 
-const Quantity = ({ quantity, setQuantity }) => {
+const Quantity = ({
+  quantity,
+  setQuantity,
+  cart,
+  addToCart,
+  removeFromCart,
+  details,
+}) => {
   return (
     <div className="w-full gap-2 flex justify-between flex-col">
       <div className="bg-white h-1/2 w-full overflow-hidden rounded-xl flex gap-4 place-items-center border">
@@ -23,9 +31,13 @@ const Quantity = ({ quantity, setQuantity }) => {
       </div>
 
       <div className="w-full h-1/2">
-        <button className="bg-yellow-300 rounded-lg h-full text-sm w-full p-2 hover:bg-yellow-400">
+        <button
+          className="bg-yellow-300 rounded-lg h-full text-sm w-full p-2 hover:bg-yellow-400"
+          onClick={() => addToCart({ ...details, quantity })}
+        >
           Add to cart
         </button>
+        <button onClick={() => console.log(cart)}>Check cart</button>
       </div>
     </div>
   );
@@ -38,12 +50,12 @@ const Carousel = ({ imgSrc, setImgSrc }) => {
 
   const Image = ({ src }) => {
     return (
-        <img
-          src={src}
-          className="rounded-lg bg-gray-300 hover:scale-105 transition-all duration-200 cursor-pointer"
-          alt=""
-          onClick={() => setImg(src)}
-        />
+      <img
+        src={src}
+        className="rounded-lg bg-gray-300 hover:scale-105 transition-all duration-200 cursor-pointer"
+        alt=""
+        onClick={() => setImg(src)}
+      />
     );
   };
 
@@ -67,6 +79,9 @@ function Page({ params }) {
   const [quantity, setQuantity] = useState(0);
   const [details, setDetails] = useState(null);
   const [imgSrc, setImgSrc] = useState(null);
+
+  // cart
+  const { cart, removeFromCart, addToCart, getCart } = useContext(CartContext);
 
   useEffect(() => {
     fetchData();
@@ -99,7 +114,14 @@ function Page({ params }) {
         <div className="text-left w-full gap-4 flex flex-col">
           <h1 className="text-3xl font-bold">{details.name}</h1>
           <p className="text-md">${details.price}</p>
-          <Quantity quantity={quantity} setQuantity={setQuantity} />
+          <Quantity
+            quantity={quantity}
+            setQuantity={setQuantity}
+            cart={cart}
+            addToCart={addToCart}
+            removeFromCart={removeFromCart}
+            details={details}
+          />
         </div>
       </div>
 
